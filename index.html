@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #141414;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .movies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .movie {
+            width: 200px;
+            background-color: #222;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .movie:hover {
+            transform: scale(1.1);
+        }
+
+        .movie img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .movie h3 {
+            font-size: 16px;
+            padding: 10px;
+        }
+
+        .rating {
+            background-color: red;
+            color: white;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 인기 영화 리스트</h1>
+        <div class="movies" id="movies"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            try {
+                const response = await fetch('http://localhost:3000/movies');  // 3000번 포트로 요청
+                const movies = await response.json();
+                const movieContainer = document.getElementById('movies');
+    
+                movies.forEach(movie => {
+                    const movieElement = document.createElement('div');
+                    movieElement.classList.add('movie');
+                    movieElement.innerHTML = `
+                        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.original_title}">
+                        <h3>${movie.original_title}</h3>
+                        <div class="rating">⭐ ${movie.vote_average.toFixed(1)}</div>
+                    `;
+                    movieContainer.appendChild(movieElement);
+                });
+    
+            } catch (error) {
+                console.error("Error fetching movies:", error);
+            }
+        });
+    </script>
+    
+</body>
+</html>
