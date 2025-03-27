@@ -14,6 +14,16 @@ const movies = xlsx.utils.sheet_to_json(sheet);
 // SQLite3 데이터베이스 연결
 const db = new sqlite3.Database('movies.db');
 
+// 테이블 생성 SQL 쿼리
+const createCommentsTable = `
+    CREATE TABLE IF NOT EXISTS comments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        movie_id INTEGER NOT NULL,
+        comment_text TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+`;
+
 // 테이블 생성
 db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS movies (
@@ -48,6 +58,24 @@ db.serialize(() => {
 
     stmt.finalize();
     console.log("데이터 삽입 완료!");
+});
+
+db.serialize(() => {
+    db.run(`CREATE TABLE IF NOT EXISTS comments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        movie_id INTEGER NOT NULL,
+        comment_text TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (movie_id) REFERENCES movies(id)
+    )`);
+});
+
+db.run(createCommentsTable, (err) => {
+    if (err) {
+        console.error("댓글 테이블 생성 중 오류 발생:", err.message);
+    } else {
+        console.log("댓글 테이블이 성공적으로 생성되었습니다.");
+    }
 });
 
 // 연결 종료

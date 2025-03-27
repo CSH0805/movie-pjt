@@ -72,7 +72,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🎬 인기 영화 리스트</h1>
+        <h1>🎬 세명컴고 누누티비</h1>
         <div class="movies" id="movies"></div>
     </div>
 
@@ -87,7 +87,9 @@
                     const movieElement = document.createElement('div');
                     movieElement.classList.add('movie');
                     movieElement.innerHTML = `
-                        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.original_title}">
+                        <a href="http://localhost:3000/app.html?id=${movie.id}">
+                            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.original_title}">
+                        </a>
                         <h3>${movie.original_title}</h3>
                         <div class="rating">⭐ ${movie.vote_average.toFixed(1)}</div>
                     `;
@@ -99,6 +101,5 @@
             }
         });
     </script>
-    
 </body>
 </html>
