@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/CSH0805/movie-pjt#readme",
   "dependencies": {
-    "express": "^4.21.2"
+    "axios": "^1.8.4",
+    "exceljs": "^4.4.0",
+    "express": "^4.21.2",
+    "sqlite3": "^5.1.7",
+    "xlsx": "^0.18.5"
   }
 }
